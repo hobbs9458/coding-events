@@ -1,29 +1,39 @@
 package org.launchcode.codingevents.models;
 
+import org.dom4j.tree.AbstractEntity;
+import org.launchcode.codingevents.data.EventCategoryRepository;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
-/**
- * Created by Chris Bay
- */
 @Entity
-public class EventCategory {
-
+public class EventCategory extends AbstractEntity {
     @Id
     @GeneratedValue
     private int id;
 
-    @Size(min=3, message="Name must be at least 3 characters long")
+    @NotBlank(message="You must provide a name")
+    @Size(min=1, max=30)
     private String name;
 
-    public EventCategory(@Size(min = 3, message = "Name must be at least 3 characters long") String name) {
+    public EventCategory(int id, String name) {
+        this.id = id;
         this.name = name;
     }
 
     public EventCategory() {}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -33,25 +43,5 @@ public class EventCategory {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EventCategory that = (EventCategory) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
